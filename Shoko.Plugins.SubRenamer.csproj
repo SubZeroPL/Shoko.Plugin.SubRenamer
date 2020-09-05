@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <Authors>SubZero</Authors>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="NLog" Version="4.7.4"/>
+        <PackageReference Include="Shoko.Plugin.Abstractions" Version="1.0.5"/>
+    </ItemGroup>
+
+    <Target Name="CopyOutput" AfterTargets="Build">
+        <Copy SourceFiles="$(TargetPath)" DestinationFolder="d:\shoko\shoko server\plugins"/>
+    </Target>
+</Project>
