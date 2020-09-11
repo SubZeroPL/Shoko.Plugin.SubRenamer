@@ -13,6 +13,7 @@
         </e>
       </e>
       <e p="packages" t="ExcludeRecursive" />
+      <e p="README.md" t="Include" />
       <e p="Shoko.Plugins.SubRenamer.csproj" t="IncludeRecursive" />
       <e p="Shoko.Plugins.SubRenamer.sln" t="IncludeFlat" />
       <e p="SubRenamer.cs" t="Include" />
