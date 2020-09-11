@@ -34,18 +34,18 @@ namespace Shoko.Plugins.SubRenamer
             var anime = args.AnimeInfo.First();
             if (anime == null)
                 return;
-            
+
             var type = anime.Type;
             var episode = args.EpisodeInfo.First();
             if (episode == null)
                 return;
-            
-            // TODO: handle specials
 
-            if (anime.EpisodeCounts.Episodes == 1)
+            var isSpecial = episode.Type != EpisodeType.Episode;
+
+            if (anime.EpisodeCounts.Episodes == 1 && !isSpecial)
             {
                 var title = episode.Titles.First(t => t.Language == TitleLanguage.English).Title ??
-                            episode.Titles.First(t => t.Language == TitleLanguage.Romaji).Title;
+                            episode.Titles.First(t => t.Language == TitleLanguage.Romaji).Title ?? "";
                 if (Regex.IsMatch(title, "Episode \\d+"))
                 {
                     title = type == AnimeType.Movie ? "Complete Movie" : anime.PreferredTitle;
@@ -55,16 +55,24 @@ namespace Shoko.Plugins.SubRenamer
             }
             else
             {
-                finalName += $"{episode.Number.PadZeroes(anime.EpisodeCounts.Episodes)} - ";
+                var prefix = "";
+                if (isSpecial)
+                {
+                    prefix = episode.Type.ToString().Substring(0, 1);
+                }
+
+                finalName += $"{prefix}{episode.Number.PadZeroes(anime.EpisodeCounts.Episodes)} - ";
                 var title = episode.Titles.First(t => t.Language == TitleLanguage.English).Title ??
-                            episode.Titles.First(t => t.Language == TitleLanguage.Romaji).Title;
+                            episode.Titles.First(t => t.Language == TitleLanguage.Romaji).Title ?? "";
 
                 finalName += title;
             }
 
-            var groupName = args.FileInfo.AniDBFileInfo.ReleaseGroup.ShortName;
+            var groupName = args.FileInfo.AniDBFileInfo?.ReleaseGroup?.ShortName;
 
-            finalName += $" [{groupName}]";
+            groupName = groupName != null ? $" [{groupName}]" : "";
+
+            finalName += groupName;
 
             finalName = (finalName + extension).RemoveInvalidPathCharacters();
             Logger.Info($"FinalName = {finalName}");
