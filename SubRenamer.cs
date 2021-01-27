@@ -4,27 +4,17 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Shoko.Plugin.Abstractions;
 using NLog;
+using Shoko.Plugin.Abstractions.Attributes;
 using Shoko.Plugin.Abstractions.DataModels;
 
 namespace Shoko.Plugins.SubRenamer
 {
+    [Renamer("SubRenamer")]
     public class SubRenamer : IRenamer
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-
-        public void Load()
-        {
-            Logger.Info("Plugin loaded");
-        }
-
-        public void OnSettingsLoaded(IPluginSettings settings)
-        {
-            Logger.Info("Settings loaded");
-        }
-
-        public string Name => "SubRenamer";
-
-        public void GetFilename(RenameEventArgs args)
+        
+        public string GetFilename(RenameEventArgs args)
         {
             Logger.Info("GetFilename");
 
@@ -33,12 +23,12 @@ namespace Shoko.Plugins.SubRenamer
             var extension = Path.GetExtension(args.FileInfo.Filename);
             var anime = args.AnimeInfo.First();
             if (anime == null)
-                return;
+                return null;
 
             var type = anime.Type;
             var episode = args.EpisodeInfo.First();
             if (episode == null)
-                return;
+                return null;
 
             var isSpecial = episode.Type != EpisodeType.Episode;
 
@@ -77,10 +67,10 @@ namespace Shoko.Plugins.SubRenamer
             finalName = (finalName + extension).RemoveInvalidPathCharacters();
             Logger.Info($"FinalName = {finalName}");
 
-            args.Result = finalName;
+            return finalName;
         }
 
-        public void GetDestination(MoveEventArgs args)
+        public (IImportFolder destination, string subfolder) GetDestination(MoveEventArgs args)
         {
             Logger.Info("GetDestination");
 
@@ -90,7 +80,6 @@ namespace Shoko.Plugins.SubRenamer
 
             // there is no configuration so for now we use first drop folder as destination
             IImportFolder dropFolder = args.AvailableFolders.First();
-            args.DestinationImportFolder = dropFolder;
 
             // first determine anime type
             IAnime anime = args.AnimeInfo.First();
@@ -106,7 +95,7 @@ namespace Shoko.Plugins.SubRenamer
             String finalDest = Path.Combine(type, $"{romajiName} [{year}]");
             Logger.Info($"FinalDest = {finalDest}");
 
-            args.DestinationPath = finalDest;
+            return (dropFolder, finalDest);
         }
     }
 }
