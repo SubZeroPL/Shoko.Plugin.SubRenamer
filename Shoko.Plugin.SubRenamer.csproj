@@ -5,10 +5,11 @@
         <Authors>SubZero</Authors>
         <PackageVersion>0.0.1</PackageVersion>
         <Title>SubRenamer</Title>
-        <PackageProjectUrl>https://github.com/SubZeroPL/Shoko.Plugins.SubRenamer</PackageProjectUrl>
-        <RepositoryUrl>https://github.com/SubZeroPL/Shoko.Plugins.SubRenamer</RepositoryUrl>
+        <PackageProjectUrl>https://github.com/SubZeroPL/Shoko.Plugin.SubRenamer</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/SubZeroPL/Shoko.Plugin.SubRenamer</RepositoryUrl>
         <AssemblyVersion>0.0.1</AssemblyVersion>
         <FileVersion>0.0.1</FileVersion>
+        <RootNamespace>Shoko.Plugin.SubRenamer</RootNamespace>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -21,6 +22,6 @@
     </ItemGroup>
 
     <Target Name="CopyOutput" AfterTargets="Build">
-        <Copy SourceFiles="$(TargetPath)" DestinationFolder="d:\shoko\shoko server\plugins" />
+        <Copy SourceFiles="$(TargetPath)" DestinationFolder="d:\Shoko\shoko_server_docker\plugins" />
     </Target>
 </Project>
