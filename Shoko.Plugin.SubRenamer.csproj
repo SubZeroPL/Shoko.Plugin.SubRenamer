@@ -3,12 +3,12 @@
     <PropertyGroup>
         <TargetFramework>netcoreapp3.1</TargetFramework>
         <Authors>SubZero</Authors>
-        <PackageVersion>0.0.1</PackageVersion>
+        <PackageVersion>1.0.0</PackageVersion>
         <Title>SubRenamer</Title>
         <PackageProjectUrl>https://github.com/SubZeroPL/Shoko.Plugin.SubRenamer</PackageProjectUrl>
         <RepositoryUrl>https://github.com/SubZeroPL/Shoko.Plugin.SubRenamer</RepositoryUrl>
-        <AssemblyVersion>0.0.1</AssemblyVersion>
-        <FileVersion>0.0.1</FileVersion>
+        <AssemblyVersion>1.0.0</AssemblyVersion>
+        <FileVersion>1.0.0</FileVersion>
         <RootNamespace>Shoko.Plugin.SubRenamer</RootNamespace>
     </PropertyGroup>
 
@@ -17,11 +17,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="NLog" Version="4.7.4" />
-        <PackageReference Include="Shoko.Plugin.Abstractions" Version="2.1.0" />
+        <PackageReference Include="NLog" Version="5.2.4" />
+        <PackageReference Include="Shoko.Plugin.Abstractions" Version="2.4.1" />
     </ItemGroup>
 
     <Target Name="CopyOutput" AfterTargets="Build">
-        <Copy SourceFiles="$(TargetPath)" DestinationFolder="d:\Shoko\shoko_server_docker\plugins" />
+        <Copy SourceFiles="$(TargetPath)" DestinationFolder="E:\ShokoServer\plugins" />
     </Target>
 </Project>

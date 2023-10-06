@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using NLog;
@@ -72,8 +73,16 @@ namespace Shoko.Plugin.SubRenamer
              * dropFolder\type\romajiName [year]
              */
 
-            // there is no configuration so for now we use first drop folder as destination
             var dropFolder = args.AvailableFolders.First();
+            try
+            {
+                dropFolder = args.AvailableFolders.First(f => f.DropFolderType == DropFolderType.Destination);
+            }
+            catch (InvalidOperationException)
+            {
+                Logger.Error("No import folders configured as drop source, picking first import folder as destination.");
+            }
+
 
             // first determine anime type
             var anime = args.AnimeInfo.First();
@@ -84,9 +93,9 @@ namespace Shoko.Plugin.SubRenamer
             var romajiName = anime.PreferredTitle.RemoveInvalidPathCharacters();
 
             // and finally year
-            var year = anime.AirDate.HasValue ? anime.AirDate.Value.Year.ToString() : 2020.ToString();
+            var year = anime.AirDate.HasValue ? anime.AirDate.Value.Year.ToString() : "";
 
-            var finalDest = Path.Combine(type, $"{romajiName} [{year}]");
+            var finalDest = Path.Combine(type, string.IsNullOrEmpty(year) ? $"{romajiName}" : $"{romajiName} [{year}]");
             Logger.Info($"FinalDest = {finalDest}");
 
             return (dropFolder, finalDest);
