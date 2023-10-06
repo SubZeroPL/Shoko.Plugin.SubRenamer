@@ -21,11 +21,19 @@ namespace Shoko.Plugin.SubRenamer
             var finalName = "";
 
             var extension = Path.GetExtension(args.FileInfo.Filename);
+            if (args.AnimeInfo.Count == 0)
+            {
+                throw new Exception("Anime not identified");
+            }
             var anime = args.AnimeInfo.First();
             if (anime == null)
                 return null;
 
             var type = anime.Type;
+            if (args.EpisodeInfo.Count == 0)
+            {
+                throw new Exception("Episode not identified");
+            }
             var episode = args.EpisodeInfo.First();
             if (episode == null)
                 return null;
@@ -83,7 +91,10 @@ namespace Shoko.Plugin.SubRenamer
                 Logger.Error("No import folders configured as drop source, picking first import folder as destination.");
             }
 
-
+            if (args.AnimeInfo.Count == 0)
+            {
+                throw new Exception("Anime not identified");
+            }
             // first determine anime type
             var anime = args.AnimeInfo.First();
             // we use type as string
