@@ -3,7 +3,7 @@
     <PropertyGroup>
         <TargetFramework>netcoreapp3.1</TargetFramework>
         <Authors>SubZero</Authors>
-        <PackageVersion>1.0.0</PackageVersion>
+        <PackageVersion>1.0.1</PackageVersion>
         <Title>SubRenamer</Title>
         <PackageProjectUrl>https://github.com/SubZeroPL/Shoko.Plugin.SubRenamer</PackageProjectUrl>
         <RepositoryUrl>https://github.com/SubZeroPL/Shoko.Plugin.SubRenamer</RepositoryUrl>
@@ -17,8 +17,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="NLog" Version="5.2.4" />
-        <PackageReference Include="Shoko.Plugin.Abstractions" Version="2.4.1" />
+        <PackageReference Include="NLog" Version="5.2.8" />
+        <PackageReference Include="Shoko.Plugin.Abstractions" Version="3.0.0-alpha1" />
     </ItemGroup>
 
     <Target Name="CopyOutput" AfterTargets="Build">

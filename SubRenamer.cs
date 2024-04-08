@@ -20,14 +20,12 @@ namespace Shoko.Plugin.SubRenamer
 
             var finalName = "";
 
-            var extension = Path.GetExtension(args.FileInfo.Filename);
+            var extension = Path.GetExtension(args.FileInfo.FileName);
             if (args.AnimeInfo.Count == 0)
             {
                 throw new Exception("Anime not identified");
             }
             var anime = args.AnimeInfo.First();
-            if (anime == null)
-                return null;
 
             var type = anime.Type;
             if (args.EpisodeInfo.Count == 0)
@@ -35,9 +33,7 @@ namespace Shoko.Plugin.SubRenamer
                 throw new Exception("Episode not identified");
             }
             var episode = args.EpisodeInfo.First();
-            if (episode == null)
-                return null;
-
+            
             var isSpecial = episode.Type != EpisodeType.Episode;
 
             if (anime.EpisodeCounts.Episodes == 1 && !isSpecial)
@@ -54,14 +50,14 @@ namespace Shoko.Plugin.SubRenamer
                 var prefix = "";
                 if (isSpecial) prefix = episode.Type.ToString()[..1];
 
-                finalName += $"{prefix}{episode.Number.PadZeroes(anime.EpisodeCounts.Episodes)} - ";
+                finalName += $"{prefix}{episode.EpisodeNumber.PadZeroes(anime.EpisodeCounts.Episodes)} - ";
                 var title = episode.Titles.First(t => t.Language == TitleLanguage.English).Title ??
                             episode.Titles.First(t => t.Language == TitleLanguage.Romaji).Title ?? "";
 
                 finalName += title;
             }
 
-            var groupName = args.FileInfo.AniDBFileInfo?.ReleaseGroup?.ShortName;
+            var groupName = args.VideoInfo.AniDB?.ReleaseGroup.ShortName;
 
             groupName = groupName != null ? $" [{groupName}]" : "";
 
